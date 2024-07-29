@@ -1,7 +1,5 @@
 package com.axub.demo_c.config;
 
-import com.axub.demo_c.service.AppUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,9 +11,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-
-    @Autowired
-    private AppUserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,8 +31,7 @@ public class WebSecurityConfig {
                 )
                 .csrf(csrf -> csrf.disable())  // Disable CSRF for H2 console
                 .headers(headers -> headers
-                .frameOptions(frameOptions -> frameOptions.sameOrigin()));
-
+                        .frameOptions(frameOptions -> frameOptions.sameOrigin()));
 
         return http.build();
     }

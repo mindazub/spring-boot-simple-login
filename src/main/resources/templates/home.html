@@ -8,10 +8,11 @@
 <div class="container">
     <h2>Home</h2>
     <p th:text="${message}"></p>
-    <div th:if="${username != 'User'}">
+    <div th:if="${#authentication != null and #authentication.authenticated}">
+        <p>Hello, <span th:text="${#authentication.name}">User</span>!</p>
         <a href="/logout" class="btn btn-secondary">Logout</a>
     </div>
-    <div th:if="${username == 'User'}">
+    <div th:if="${#authentication == null or !#authentication.authenticated}">
         <p>Hello User, please <a href="/register">register</a> or <a href="/login">login</a> if you have an account.</p>
     </div>
 </div>
