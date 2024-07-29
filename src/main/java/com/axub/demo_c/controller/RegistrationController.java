@@ -2,6 +2,7 @@ package com.axub.demo_c.controller;
 
 import com.axub.demo_c.model.AppUser;
 import com.axub.demo_c.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,7 +31,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute AppUser user) {
+    public String registerUser(@ModelAttribute AppUser user, HttpSession session) {
         userService.registerUser(user.getUsername(), user.getPassword());
 
         // Auto-login after registration
@@ -38,6 +39,9 @@ public class RegistrationController {
         Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, user.getPassword(), userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
 
-        return "redirect:/";  // Redirect to the home page
+        // Set session attribute to indicate registration
+        session.setAttribute("message", "Hello, " + user.getUsername() + ", thank you for registration");
+
+        return "redirect:/";
     }
 }
